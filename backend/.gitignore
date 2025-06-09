@@ -1,0 +1,19 @@
+# Ignore les dossiers node_modules (projets Node.js)
+node_modules/
+
+# Ignore les fichiers de log
+*.log
+
+# Ignore les fichiers temporaires de l’éditeur (ex: VS Code)
+.vscode/
+
+# Ignore les fichiers de build (par exemple pour React ou autres)
+build/
+dist/
+
+# Ignore les fichiers secrets ou de configuration locale
+.env
+
+# Ignore les fichiers systèmes (Windows)
+Thumbs.db
+.DS_Store
