@@ -3,8 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
-// Plus tard : const clientRoutes = require('./routes/clientRoutes');
-// etc.
+const clientRoutes = require('./routes/clientRoutes');
 
 const app = express();
 
@@ -13,6 +12,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/clients', clientRoutes);
 
 // Pour l'instant pas d'autres routes, tu pourras les ajouter après.
 
