@@ -1,26 +1,22 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const path = require('path');
 
-// Connexion SQLite
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: 'database.sqlite',
-  logging: false
-});
+const sequelize = require('../data/database');
 
-// Modèle Client
+
 const Client = sequelize.define('Client', {
-  nom: DataTypes.STRING,
-  prenom: DataTypes.STRING,
-  telephone: DataTypes.STRING,
-  email: DataTypes.STRING,
+  nom: { type: DataTypes.STRING, allowNull: false },
+  prenom: { type: DataTypes.STRING, allowNull: false },
+  telephone: { type: DataTypes.STRING, allowNull: false, unique: true },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    validate: { isEmail: true },
+  },
   adresse: DataTypes.STRING,
-  dateCreation: {
-    type: DataTypes.DATE,
-    defaultValue: Sequelize.NOW
-  }
-});
+}, { timestamps: true });
 
-// Modèle Appareil
 const Appareil = sequelize.define('Appareil', {
   marque: DataTypes.STRING,
   modele: DataTypes.STRING,
@@ -30,18 +26,19 @@ const Appareil = sequelize.define('Appareil', {
   accessoires: {
     type: DataTypes.TEXT,
     get() {
-      return this.getDataValue('accessoires')?.split(';') || [];
+      const val = this.getDataValue('accessoires');
+      return val ? val.split(';').filter(x => x.trim()) : [];
     },
     set(val) {
-      this.setDataValue('accessoires', val.join(';'));
+      this.setDataValue('accessoires', Array.isArray(val) ? val.join(';') : '');
     }
   }
-});
+}, { timestamps: true });
 
-// Relation Client → Appareils
+// Relations
 Client.hasMany(Appareil, { foreignKey: 'clientId', onDelete: 'CASCADE' });
 Appareil.belongsTo(Client, { foreignKey: 'clientId' });
 
-sequelize.sync(); // Création automatique si pas déjà présent
+sequelize.sync(); // Synchronisation
 
 module.exports = { sequelize, Client, Appareil };
