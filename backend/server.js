@@ -21,8 +21,8 @@ app.use('/api/repair', repairRoutes);
 app.use('/api/invoices', invoiceRoutes);
 
 // Synchronisation de la base et démarrage du serveur
-sequelize.sync({ alter: true }).then(() => {
-  console.log('Base de données recréée avec succès.');
+sequelize.sync().then(() => {
+  console.log('Base de données synchronisée avec succès.');
 
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {

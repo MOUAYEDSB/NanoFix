@@ -2,12 +2,29 @@ const { sequelize, Client, Appareil } = require('./clientModel');  // Ton fichie
 const Repair = require('./repairModel');
 
 // Associer Repair à Client et Appareil
-Repair.belongsTo(Client, { foreignKey: 'clientId', as: 'client' });
-Repair.belongsTo(Appareil, { foreignKey: 'appareilId', as: 'appareil' });
+Repair.belongsTo(Client, {
+  foreignKey: 'clientId',
+  as: 'client',
+  onDelete: 'CASCADE',
+});
 
-// Pour navigation inverse (pas obligatoire mais utile)
-Client.hasMany(Repair, { foreignKey: 'clientId', as: 'repairs' });
-Appareil.hasMany(Repair, { foreignKey: 'appareilId', as: 'repairs' });
+Repair.belongsTo(Appareil, {
+  foreignKey: 'appareilId',
+  as: 'appareil',
+  onDelete: 'CASCADE',
+});
+
+Client.hasMany(Repair, {
+  foreignKey: 'clientId',
+  as: 'repairs',
+  onDelete: 'CASCADE',
+});
+
+Appareil.hasMany(Repair, {
+  foreignKey: 'appareilId',
+  as: 'repairs',
+  onDelete: 'CASCADE',
+});
 
 module.exports = {
   sequelize,
