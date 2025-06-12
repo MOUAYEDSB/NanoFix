@@ -7,6 +7,7 @@ const { sequelize } = require('./models');
 const authRoutes = require('./routes/authRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 const repairRoutes = require('./routes/repairRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/clients', clientRoutes);
 app.use('/api/repair', repairRoutes);
+app.use('/api/invoices', invoiceRoutes);
 
 // Synchronisation de la base et démarrage du serveur
 sequelize.sync({ alter: true }).then(() => {
