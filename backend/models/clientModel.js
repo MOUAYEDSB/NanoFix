@@ -39,6 +39,6 @@ const Appareil = sequelize.define('Appareil', {
 Client.hasMany(Appareil, { foreignKey: 'clientId', onDelete: 'CASCADE' });
 Appareil.belongsTo(Client, { foreignKey: 'clientId' });
 
-sequelize.sync(); // Synchronisation
+sequelize.sync();
 
 module.exports = { sequelize, Client, Appareil };
